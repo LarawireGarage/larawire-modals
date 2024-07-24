@@ -1,0 +1,18 @@
+<x-larawire::modal :modal="$modal">
+
+    <!-- if needs to customize header section -->
+    {{--
+        <x-slot name="header" :defaultClose="true">
+            Modal header content
+        </x-slot>
+    --}}
+
+    <x-slot name="body">
+        <!-- Modal body content -->
+    </x-slot>
+
+    <x-slot name="footer" :defaultClose="true">
+        <!-- Modal footer content -->
+    </x-slot>
+
+</x-larawire::modal>

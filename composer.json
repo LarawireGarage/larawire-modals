@@ -1,0 +1,25 @@
+{
+    "name": "larawire-garage/larawire-modals",
+    "description": "Modal window with Livewire",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "LarawireGarage\\LarawireModals\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LarawireGarage\\LarawireModals\\LarawireModalsServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Nirmal",
+            "email": "88931913+LarawireGarage@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}

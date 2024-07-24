@@ -1,0 +1,60 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\View\View;
+use LarawireGarage\LivewireModal\ModalComponent; 
+
+class {{ class }} extends ModalComponent 
+{ 
+
+    public $modal = [
+        'id'                        => '{{ viewID }}',
+        'titleText'                 => 'Sample Modal',
+        'theme'                     => '{{ theme }}',
+        /** Reset modal component before show the modal */
+        'resetBeforeShow'           => true,
+        /** Reset validation errors before show the modal */
+        'resetValidationBeforeShow' => true,
+
+        /** available if needs to customize */
+        // 'backdropClasses'       => '',
+        // 'containerClasses'      => '',
+        // 'windowClasses'         => '',
+        // 'headerClasses'         => '',
+        // 'headerCloseBtnClasses' => '',
+        // 'bodyClasses'           => '',
+        // 'footerClasses'         => '',
+        // 'footerCloseBtnClasses' => '',
+
+        /** Only for tailwind */
+        // 'animation'             => 'slide-down', 
+    ];
+
+    /**
+     * This function called before show event fired
+     *
+     * @param mixed|null $data
+     * @return void
+     */
+    public function beforeShow($data = null): void
+    {
+        // tasks before show the modal
+    }
+
+    /**
+     * This function called before close event fired
+     *
+     * @param mixed|null $data
+     * @return void
+     */
+    public function beforeClose(): void
+    {
+        // tasks before close the modal
+    }
+
+    public function render(): View
+    {
+        return view("{{ view }}");
+    }
+}
