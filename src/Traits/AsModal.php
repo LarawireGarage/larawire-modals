@@ -18,7 +18,7 @@ trait AsModal
             $this->modal = array_merge([
                 'id'                        => 'sample_modal_' . time(),
                 'title'                     => 'Sample Modal',
-                'theme'                     => 'bootstrap',
+                'theme'                     => config('larawire-modals.theme', 'bootstrap'),
                 'resetBeforeShow'           => config('larawire-modals.resetBeforeShow', true),
                 'resetValidationBeforeShow' => config('larawire-modals.resetValidationBeforeShow', true),
             ], $this->modal);
