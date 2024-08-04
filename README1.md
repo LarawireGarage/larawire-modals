@@ -17,6 +17,19 @@ composer require larawire-garage/larawire-modals
 php artisan vendor:publish --tag=larawire-modals-configs
 ```
 
+# Themes
+Currently supports 2 themes.
+* Bootstrap
+* Tailwind
+
+You can add theme your proejct used in config file. Also you can change theme in your modal variable inside the modal component.
+```php
+public array $modal = [
+    'theme' => 'bootstrap',
+    //...
+];
+```
+
 # Usage
 create modal component using below command.
 ```
@@ -73,3 +86,49 @@ public array $modal = [
 You can define:
 * `beforeShow()` - Runs before show the modal dialog
 * `beforeClose()` - Runs before close the modal dialog
+
+# Customizaion
+In the larawire-modals config file you can change classes of the containers of the modal. Also can change in the modal variable of the modal component.
+
+```php
+public array $modal = [
+     /** available if needs to customize */
+    'backdropClasses'       => '',
+    'containerClasses'      => '',
+    'windowClasses'         => '',
+    'headerClasses'         => '',
+    'headerCloseBtnClasses' => '',
+    'bodyClasses'           => '',
+    'footerClasses'         => '',
+    'footerCloseBtnClasses' => '',
+    //...
+];
+``` 
+
+# Animation
+
+Also you can change animation of the modal.
+
+`Bootstrap Theme :`<br>
+In bootstrap, follow bootstrap documentation to change the modal animation. 
+
+`Tailwind Theme :`<br>
+In tailwind theme under `animation` key in them larawire-modals config file.
+Also you can change it in the modal variable in the modal component.
+
+```php
+public array $modal = [
+     /** Only for tailwind */
+    'animation' => 'slide-down',
+    //...
+];
+```
+For deep customize animation classes check under `animation-classes` key in larawire-modals config file.
+ In Tailwind theme, modal use alpinejs & tailwindcss animation classes to animate modals. 
+
+Changing classes still not working for you, To customize appearance of the modal, you can publish the views and edit it.
+```
+php artisan vendor:publish --tag=larawire-modals-views
+```
+ 
+ !!! :tada::tada::tada: Enjoy :tada::tada::tada: !!!
