@@ -11,6 +11,7 @@ Create modal dialog easily with laravel project with livewire 3 + Alpinejs & man
     - [Themes](#themes)
         - [Bootstrap Installation](#bootstrap-installation)
         - [Tailwind Installation](#tailwind-installation)
+        - [Change Theme](#change-theme)
 - [Usage](#usage)
     - [Create Modal](#usage)
     - [Show Modal](#to-show-the-modal-dialog)
