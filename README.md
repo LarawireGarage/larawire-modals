@@ -19,6 +19,7 @@ Create modal dialog easily with laravel project with livewire 3 + Alpinejs & man
     - [Options](#options)
         - [Available Options](#available-options)
     - [Methods](#methods)
+    - [Add Form](#add-form)
 - [Customizaion](#customizaion)
 - [Animation](#animation)
 - [Not Working ?](#not-working-correctly)
@@ -160,6 +161,33 @@ public array $modal = [
 You can define:
 * `beforeShow()` - Runs before show the modal dialog
 * `beforeClose()` - Runs before close the modal dialog
+
+## Add Form
+If your modal contains form, add formSubmit attribute to modal component. 
+When `formSubmit` attribute defined, modal `body` and `footer` slots automatically covered by form tag with `wire:submit="[form-submit-value]"` attribute.
+```html
+<x-larawire::modal :modal="$modal" formSubmit="createNewUser"> 
+                                    <!-- 👆 Add form submit parameter here -->
+    <x-slot name="body">
+        <!-- Modal body content -->
+
+         <!-- Add form content here -->
+          <input type="text" class="" name="name" id="name-input" wire:model="name">
+    </x-slot>
+
+    <x-slot name="footer" :defaultClose="true">
+        <!-- Modal footer content -->
+        
+        <!-- 👇 Add button for submit the form -->
+        <button type="submit" wire:loading.attr="disabled" wire:target='createNewUser'>
+            <span wire:loading.class="d-none hidden">Create</span>
+            <span wire:loading wire:target="createNewUser">Creating...</span>
+        </button> 
+
+    </x-slot>
+
+</x-larawire::modal>
+```
 
 # Customizaion
 In the larawire-modals config file you can change classes of the containers of the modal. Also can change in the modal variable of the modal component.
