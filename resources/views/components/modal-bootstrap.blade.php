@@ -41,6 +41,11 @@
                 </div>
             @endisset
 
+            @if (!empty($formSubmit))
+                <form wire:submit.prevent="{{ $formSubmit }}">
+            @endif
+
+
             @isset($body)
                 <div {{ $body->attributes->class([$bodyClasses]) }}>
                     {{ $body ?? '' }}
@@ -65,6 +70,10 @@
                     <button type="button" class="{{ $footerCloseBtnClasses }}" data-bs-dismiss="modal">Close</button>
                 </div>
             @endisset
+
+            @if (!empty($formSubmit))
+                </form>
+            @endif
 
         </div>
     </div>

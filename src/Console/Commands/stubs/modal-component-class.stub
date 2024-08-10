@@ -3,7 +3,7 @@
 namespace {{ namespace }};
 
 use Illuminate\View\View;
-use LarawireGarage\LivewireModal\ModalComponent; 
+use LarawireGarage\LarawireModals\ModalComponent; 
 
 class {{ class }} extends ModalComponent 
 { 
