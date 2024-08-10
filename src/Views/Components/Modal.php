@@ -66,8 +66,10 @@ class Modal extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(array $modal = [])
+    public function __construct(array $modal = [], bool $hasForm = false, string $formSubmit = '')
     {
+        $this->hasForm = $hasForm;
+        $this->formSubmit = $formSubmit;
         $this->id = $this->prepareModalID($modal);
         $this->titleText = isset($modal['titleText']) ? $modal['titleText'] : '';
         $this->theme = $this->prepareTheme($modal);
