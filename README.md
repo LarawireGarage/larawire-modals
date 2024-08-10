@@ -67,7 +67,8 @@ module.exports = {
     //...
 }
 ```
-
+If not working correctly? [Check Here](#not-working-correctly)
+### <ins>Change Theme</ins>
 You can add theme your proejct used in `larawire-modals` config file. 
 ```php
 // configs/larawire-modals.php
