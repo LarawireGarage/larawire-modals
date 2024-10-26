@@ -119,14 +119,38 @@ return [
 ];
 ```
 
+> ModalComponent is a regular Livewire component. You can do everything normal Livewire component can do.
+> * Fire or listen events with parameters
+> * Parse parameters to component
+> * Call functions etc...
+> ____
+
+> By Default ModalComponent listen 2 events
+> * **show** [parameters parse to beforeShow function]
+>   * hook : **beforeShow(...$args)**
+> * **close** [parameters not supported yet]
+>   * hook : **beforeClose()**
+> ____
+
 ### To show the modal dialog
+dispatch `show` event to "your-modal-component".
 ```php
-$this->dispatch('show')->to(MyModal::class);
+$this->dispatch('show',id:$post->id)->to(MyModal::class);
+```
+```blade
+<button wire:click="$dispatchTo('your-modal-component', 'show', { id: {{ $post->id }} })">
+    Show Modal
+</button>
 ```
 ### To close the modal dialog
 * From other component:
 ```php
 $this->dispatch('close')->to(MyModal::class);
+```
+```blade
+<button wire:click="$dispatchTo('your-modal-component', 'close')">
+    Close Modal
+</button>
 ```
 * From modal component:
 ```php
