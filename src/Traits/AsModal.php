@@ -44,7 +44,7 @@ trait AsModal
         }
 
         if (method_exists($this, 'beforeShow')) {
-            ImplicitlyBoundMethod::call(app(), [$this, 'beforeShow'], ...$data);
+            ImplicitlyBoundMethod::call(app(), [$this, 'beforeShow'], $data);
         }
 
         $this->fireShowModalEvent();
