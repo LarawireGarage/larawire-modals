@@ -74,10 +74,13 @@ class MakeLivewireModalCommand extends Command
         $this->component = $kebabCase;
         $this->componentClass = str($this->component)->studly();
         $this->directories = array_map([Str::class, 'studly'], $directories);
-        $classPath = app('path') . DIRECTORY_SEPARATOR . str_replace('\\', '/', str(config('larawire-modals.class_namespace'))->finish('\\')->replaceFirst(app()->getNamespace(), ''));
+        $classPath = app('path') . DIRECTORY_SEPARATOR . str_replace([DIRECTORY_SEPARATOR, '/'], DIRECTORY_SEPARATOR, str(config('larawire-modals.class_namespace'))
+            ->replace(['/', '\\'], DIRECTORY_SEPARATOR)
+            ->finish(DIRECTORY_SEPARATOR)
+            ->replaceFirst(app()->getNamespace(), ''));
 
         $this->baseClassPath = rtrim($classPath, DIRECTORY_SEPARATOR);
-        $this->baseViewPath = rtrim(config('larawire-modals.view_path'), DIRECTORY_SEPARATOR) . '/';
+        $this->baseViewPath = rtrim(config('larawire-modals.view_path'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
         $this->theme = $this->option('theme') ?? config('larawire-modals.theme', 'bootstrap');
 
@@ -163,20 +166,25 @@ class MakeLivewireModalCommand extends Command
 
     public function relativeViewPath(): string
     {
-        return str($this->viewPath())->replaceFirst(base_path() . DIRECTORY_SEPARATOR, '')->replace('\\', '/');
+        return str($this->viewPath())
+            ->replaceFirst(base_path() . DIRECTORY_SEPARATOR, '')
+            ->replace(['/', '\\'], DIRECTORY_SEPARATOR);
     }
 
     public function classPath()
     {
-        return $this->baseClassPath . collect()
+        return $this->baseClassPath . DIRECTORY_SEPARATOR . collect()
             ->concat($this->directories)
             ->push($this->classFile())
-            ->implode('/');
+            ->implode(DIRECTORY_SEPARATOR);
     }
 
     public function relativeClassPath(): string
     {
-        return str($this->classPath())->replaceFirst(base_path() . DIRECTORY_SEPARATOR, '')->replace('\\', '/');
+        return str($this->classPath())
+            ->replaceFirst(base_path() . DIRECTORY_SEPARATOR, '')
+            ->replace(['/', '\\'], DIRECTORY_SEPARATOR)
+            ->toString();
     }
 
     public function classFile()
@@ -197,7 +205,13 @@ class MakeLivewireModalCommand extends Command
     {
         return collect()
             ->when(config('larawire-modals.view_path') !== resource_path(), function ($collection) {
-                return $collection->concat(explode('/', str($this->baseViewPath)->after(resource_path('views'))));
+                return $collection->concat(explode(
+                    DIRECTORY_SEPARATOR,
+                    str($this->baseViewPath)
+                        ->after(resource_path('views'))
+                        ->replace(['/', '\\'], DIRECTORY_SEPARATOR)
+                        ->toString()
+                ));
             })
             ->filter()
             ->concat($this->directories)
@@ -226,7 +240,7 @@ class MakeLivewireModalCommand extends Command
     {
         $name = ltrim($name, '\\/');
 
-        $name = str_replace('/', '\\', $name);
+        $name = str_replace('/', DIRECTORY_SEPARATOR, $name);
 
         $rootNamespace = $this->rootNamespace();
 
@@ -235,7 +249,7 @@ class MakeLivewireModalCommand extends Command
         }
 
         return $this->qualifyClass(
-            $this->getDefaultNamespace(trim($rootNamespace, '\\')) . '\\' . $name
+            $this->getDefaultNamespace(trim($rootNamespace, DIRECTORY_SEPARATOR)) . DIRECTORY_SEPARATOR . $name
         );
     }
     /**
@@ -318,7 +332,7 @@ class MakeLivewireModalCommand extends Command
      */
     protected function replaceClass($stub, $name)
     {
-        $class = str_replace($this->getNamespace($name) . '\\', '', $name);
+        $class = str_replace($this->getNamespace($name) . DIRECTORY_SEPARATOR, '', $name);
         $classContent = str_replace(['DummyClass', '{{ class }}', '{{class}}'], $class, $stub);
         $classContent = str_replace(['{{ view }}', '{{view}}'], $this->viewName(), $classContent);
         $classContent = str_replace(['{{ viewID }}', '{{viewID}}'], $this->viewFileName(), $classContent);
@@ -330,7 +344,7 @@ class MakeLivewireModalCommand extends Command
     public function getNameInput()
     {
         return Str::of($this->argument('name'))
-            ->replace('\\', '/')
+            ->replace(['/', '\\'], DIRECTORY_SEPARATOR)
             ->replace('.', '/')
             ->explode('/')
             ->map(fn($dir) => Str::studly($dir))
@@ -341,10 +355,10 @@ class MakeLivewireModalCommand extends Command
     public function getNamespace($qualifiedClass)
     {
         return Str::of($this->qualifyClass($this->getNameInput()))
-            ->explode('\\')
+            ->explode(DIRECTORY_SEPARATOR)
             ->map(fn($dirname) => Str::ucfirst($dirname))
             ->slice(0, -1)
-            ->implode('\\');
+            ->implode(DIRECTORY_SEPARATOR);
     }
     /**
      * Get the destination class path.
@@ -355,19 +369,21 @@ class MakeLivewireModalCommand extends Command
     public function generatePathFromQualifiedClass()
     {
         $name = Str::of(Str::of($this->qualifyClass($this->getNameInput()))
-            ->explode('\\')
-            ->map(fn($dirname) => Str::ucfirst($dirname))
-            ->implode('\\'))
+            ->explode(DIRECTORY_SEPARATOR)
+            ->map(fn(string $dirname) => Str::ucfirst($dirname))
+            ->implode(DIRECTORY_SEPARATOR))
             ->replaceFirst(app()->getNamespace(), '')
-            ->finish('.php');
+            ->replace(['/', '\\'], DIRECTORY_SEPARATOR)
+            ->finish('.php')
+            ->toString();
 
-        return app_path(str_replace('/', '\\', $name));
+        return app_path(str_replace('/', DIRECTORY_SEPARATOR, $name));
     }
     public function generateDirFromNamespace($qualifiedClass)
     {
         $name = Str::of($qualifiedClass)
             ->replaceFirst(app()->getNamespace(), '');
-        return app_path(str_replace('/', '\\', $name));
+        return app_path(str_replace('/', DIRECTORY_SEPARATOR, $name));
     }
 
     /**
