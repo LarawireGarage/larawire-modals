@@ -74,10 +74,16 @@ class MakeLivewireModalCommand extends Command
         $this->component = $kebabCase;
         $this->componentClass = str($this->component)->studly();
         $this->directories = array_map([Str::class, 'studly'], $directories);
-        $classPath = app('path') . DIRECTORY_SEPARATOR . str_replace([DIRECTORY_SEPARATOR, '/'], DIRECTORY_SEPARATOR, str(config('larawire-modals.class_namespace'))
-            ->replace(['/', '\\'], DIRECTORY_SEPARATOR)
-            ->finish(DIRECTORY_SEPARATOR)
-            ->replaceFirst(app()->getNamespace(), ''));
+        // $classPath = app('path') . DIRECTORY_SEPARATOR . str_replace(
+        $classPath = base_path() . DIRECTORY_SEPARATOR . str_replace(
+            [DIRECTORY_SEPARATOR, '/'],
+            DIRECTORY_SEPARATOR,
+            str(config('larawire-modals.class_namespace'))
+                ->replace('App', 'app')
+                ->replace(['/', '\\'], DIRECTORY_SEPARATOR)
+                ->finish(DIRECTORY_SEPARATOR)
+                ->replaceFirst(app()->getNamespace(), '')
+        );
 
         $this->baseClassPath = rtrim($classPath, DIRECTORY_SEPARATOR);
         $this->baseViewPath = rtrim(config('larawire-modals.view_path'), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
